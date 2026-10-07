@@ -9,7 +9,7 @@ from django import forms
 
 class RegisterForm(forms.Form):
     username = forms.CharField(label="Username")
-    email = forms.CharField(label="Email")
+    email = forms.EmailField(label="Email")
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
     confirm = forms.CharField(label="Confirm Password", widget=forms.PasswordInput)
 
@@ -49,6 +49,12 @@ def register_view(request):
                 return render(request, "accounts/register.html", {
                     "form": form,
                     "message": "Username already taken."
+                })
+            # unique Email
+            if User.objects.filter(email=email).exists():
+                return render(request, "accounts/register.html", {
+                    "form": form,
+                    "message": "Email already registered."
                 })
 
             # create user
