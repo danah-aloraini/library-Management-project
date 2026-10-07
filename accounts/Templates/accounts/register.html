@@ -1,0 +1,24 @@
+{% extends "accounts/layout.html" %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="register">
+    <div class="register-container">
+
+        <h3 class="register-title">Create an Account</h3>
+
+        {% if message %}
+            <div class="register-error">{{ message }}</div>
+        {% endif %}
+
+        <form action="{% url 'accounts:register_view' %}" method="post" class="register-form">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="register" class="register-button">
+        </form>
+
+    </div>
+</div>
+{% endblock %}

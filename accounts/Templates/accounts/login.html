@@ -1,0 +1,31 @@
+{% extends "accounts/layout.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="login">
+    <div class="login-container">
+
+        <div class="login_logo">
+            <img src="{% static 'accounts/library-logo.jfif' %}" alt="Logo" >
+            <h3 class="login-title">Library System</h3>
+        </div>
+
+        {% if message %}
+            <div class="login-error">{{ message }}</div>
+        {% endif %}
+
+        <form action="{% url 'accounts:login_view' %}" method="post" class="login-form">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="login" class="login-button">
+        </form>
+
+        <p class ="login-to-register">
+            Don't have an account?
+            <a href="{% url 'accounts:register_view' %}">Create account</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
