@@ -96,3 +96,26 @@ def login_view(request):
 def book_list_view(request):
     books = Book.objects.all()
     return render(request, "accounts/books_list.html", {"books": books})
+
+
+@login_required(login_url='accounts:login_view')
+def book_detail_view(request, book_id):
+    book = Book.objects.get(id=book_id)
+
+    reserved = book.reserved_by.filter(id=request.user.id).exists()
+
+    return render(request, "accounts/book_detail.html", {
+        "book": book,
+        "reserved": reserved
+    })
+
+@login_required(login_url='accounts:login_view')
+def reserve_book_view(request, book_id):
+    book = Book.objects.get(id=book_id)
+
+    if request.method == "POST":
+        book.reserved_by.add(request.user)
+
+    return HttpResponseRedirect(
+        reverse("accounts:book_detail_view", args=(book_id,))
+    )
