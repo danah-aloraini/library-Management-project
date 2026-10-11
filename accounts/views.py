@@ -4,7 +4,8 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django import forms
-
+from django.contrib.auth.decorators import login_required
+from .models import Book
 
 
 class RegisterForm(forms.Form):
@@ -79,7 +80,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return HttpResponseRedirect(reverse("accounts:login_view"))# replace ofter bulding view books return HttpResponseRedirect(reverse("books:index"))
+                return HttpResponseRedirect(reverse("accounts:book_list_view"))
             else:
                 return render(request, "accounts/login.html", {
                     "form": form,
@@ -91,3 +92,7 @@ def login_view(request):
     return render(request, "accounts/login.html", {"form": LoginForm()})
 
 
+@login_required(login_url='accounts:login_view')
+def book_list_view(request):
+    books = Book.objects.all()
+    return render(request, "accounts/books_list.html", {"books": books})
