@@ -21,12 +21,12 @@
 
             <div class="Menu-links">
 
-                <a class="Menu-link" href="{% url 'accounts:login_view' %}">Login</a>
-                <a class="Menu-link" href="{% url 'accounts:register_view' %}">Register</a>
-                {% comment %}
-                <a class="Menu-link" href="{% url 'books:index' %}">All Books</a>
-                <a class="Menu-link" href="{% url 'books:add' %}">Add Book</a>
-                {% endcomment %}
+                {% if request.user.is_authenticated %}
+                    <a class="Menu-link" href="{% url 'accounts:book_list_view' %}">All Books</a>
+                {% else %}
+                    <a class="Menu-link" href="{% url 'accounts:login_view' %}">Login</a>
+                    <a class="Menu-link" href="{% url 'accounts:register_view' %}">Register</a>
+                 {% endif %}
 
             </div>
 
