@@ -1,0 +1,82 @@
+/* site.css - توحيد التصميم في كل صفحات الموقع (متطلب 9) */
+
+:root {
+  --brand: #2c3e50;
+  --brand-accent: #3b82f6;
+  --page-bg: #f5f7fa;
+  --radius: 10px;
+}
+
+/* الخط والخلفية الموحدة */
+body {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-size: 1rem;
+  background-color: var(--page-bg);
+  color: #212529;
+}
+
+/* مسافة موحدة حول محتوى كل صفحة */
+.container {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+/* العناوين: نفس الأحجام والمحاذاة */
+h1, h2, h3 {
+  color: var(--brand);
+  font-weight: 600;
+}
+h1 { font-size: 2rem; }
+h2 { font-size: 1.6rem; margin-bottom: 1.25rem; }
+h3 { font-size: 1.3rem; }
+
+/* الكروت */
+.card {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* الأزرار */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+}
+.btn-primary {
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+}
+.btn-primary:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+/* حقول الفورم */
+.form-control,
+.form-select {
+  border-radius: 8px;
+}
+.form-label {
+  font-weight: 500;
+}
+
+/* الجداول */
+.table {
+  background-color: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.table thead th {
+  background-color: var(--brand);
+  color: #fff;
+  font-weight: 500;
+}
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+/* رسائل التنبيه */
+.alert {
+  border-radius: 8px;
+}
