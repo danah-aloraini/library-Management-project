@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.decorators import login_required
 from .models import Book
+from django.contrib import messages
 
 
 class RegisterForm(forms.Form):
@@ -96,6 +97,30 @@ def login_view(request):
 def book_list_view(request):
     books = Book.objects.all()
     return render(request, "accounts/books_list.html", {"books": books})
+
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ["title", "author", "genre"]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+            "author": forms.TextInput(attrs={"class": "form-control"}),
+            "genre": forms.TextInput(attrs={"class": "form-control"}),
+        }
+
+
+@login_required(login_url='accounts:login_view')
+def add_book_view(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Book added successfully!")
+            return HttpResponseRedirect(reverse("accounts:book_list_view"))
+    else:
+        form = BookForm()
+    return render(request, "accounts/add_book.html", {"form": form})
 
 
 @login_required(login_url='accounts:login_view')
