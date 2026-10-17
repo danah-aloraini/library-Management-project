@@ -5,8 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib import messages
+from django.shortcuts import redirect
 from django.forms import ModelForm
 from .models import Book
 from django.contrib import messages
@@ -66,7 +65,7 @@ def register_view(request):
             user = User.objects.create_user(username, email, password)
             user.save()
 
-            login(request, user)
+            messages.success(request, "Account created successfully!")
             return HttpResponseRedirect(reverse("accounts:login_view"))
         else:
             return render(request, "accounts/register.html", {"form": form})
@@ -88,13 +87,16 @@ def login_view(request):
             else:
                 return render(request, "accounts/login.html", {
                     "form": form,
-                    "message": "Error: you need to register first"
+                    "message":"Invalid username or password."
                 })
         else:
             return render(request, "accounts/login.html", {"form": form})
 
     return render(request, "accounts/login.html", {"form": LoginForm()})
 
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("accounts:login_view"))
 
 @login_required(login_url='accounts:login_view')
 def book_list_view(request):
@@ -102,15 +104,10 @@ def book_list_view(request):
     return render(request, "accounts/books_list.html", {"books": books})
 
 
-class BookForm(forms.ModelForm):
+class BookForm(ModelForm):
     class Meta:
         model = Book
-        fields = ["title", "author", "genre"]
-        widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "author": forms.TextInput(attrs={"class": "form-control"}),
-            "genre": forms.TextInput(attrs={"class": "form-control"}),
-        }
+        fields = ['title', 'author', 'genre', 'description']
 
 
 @login_required(login_url='accounts:login_view')
@@ -131,7 +128,6 @@ def book_detail_view(request, book_id):
     book = Book.objects.get(id=book_id)
 
     reserved = book.reserved_by.filter(id=request.user.id).exists()
-
     return render(request, "accounts/book_detail.html", {
         "book": book,
         "reserved": reserved
@@ -143,20 +139,15 @@ def reserve_book_view(request, book_id):
 
     if request.method == "POST":
         book.reserved_by.add(request.user)
-
+        messages.success(request, f"You reserved '{book.title}'.")
     return HttpResponseRedirect(
         reverse("accounts:book_detail_view", args=(book_id,))
     )
-    
-class BookForm(ModelForm):
-    class Meta:
-         model = Book
-         fields = ['title', 'author', 'genre', 'description']
 
 
 @login_required(login_url='accounts:login_view')
 def update_book_view(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
+    book = Book.objects.get(id=book_id)
 
     if request.method == "POST":
         form = BookForm(request.POST, instance=book)
@@ -167,7 +158,6 @@ def update_book_view(request, book_id):
             return redirect("accounts:book_detail_view", book_id=book.id)
     else:
         form = BookForm(instance=book)
-
     return render(request, "accounts/update_book.html", {
         "form": form,
         "book": book
@@ -175,7 +165,7 @@ def update_book_view(request, book_id):
     
 @login_required(login_url='accounts:login_view')
 def delete_book_view(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
+    book = Book.objects.get(id=book_id)
 
     if request.method == "POST":
         book.delete()

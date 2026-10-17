@@ -31,7 +31,7 @@
                         <td>{{ book.author }}</td>
                         <td>{{ book.genre }}</td>
                         <td class="text-center">
-                            <!--  (Requirement 5) Put book details URL here -->
+
                             <a href="{% url 'accounts:book_detail_view' book.id %}" class="btn btn-primary btn-sm">View Details</a>
                         </td>
                     </tr>

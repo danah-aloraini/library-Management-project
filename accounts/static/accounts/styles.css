@@ -10,12 +10,12 @@ body {
 }
 
 /*    Main Navigation Menu    */
-.library-Menu {
+.library-menu {
     background-color: #1f2937;
     padding: 10px 20px;
 }
 
-.Menu-container {
+.menu-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -23,25 +23,25 @@ body {
     margin: 0 auto;
 }
 
-.Menu-logo {
+.menu-logo {
     display: flex;
     align-items: center;
     text-decoration: none;
 }
 
-.Menu-logo img {
+.menu-logo img {
     display: block;
     height: 40px;
     width: auto;
 }
 
-.Menu-links {
+.menu-links {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.Menu-link {
+.menu-link {
     color: #ffffff;
     text-decoration: none;
     font-size: 15px;
@@ -50,15 +50,8 @@ body {
     transition: background-color 0.2s ease;
 }
 
-.Menu-link:hover {
+.menu-link:hover {
     background-color: #374151;
-}
-
-
-.container {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 0 20px;
 }
 
 /*    Login page    */
@@ -78,12 +71,12 @@ body {
     padding: 30px;
 }
 
-.login_logo {
+.login-logo {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.login_logo img {
+.login-logo img {
     width: 90px;
     height: auto;
 }
@@ -179,6 +172,7 @@ body {
     font-size: 14px;
     text-align: center;
 }
+
 .errorlist {
     list-style: none;
     padding: 10px;
@@ -219,4 +213,82 @@ body {
 
 .register-button:hover {
     background: #111827;
+}
+
+/*    Book form (Add / Update pages)    */
+.book-form input[type="text"],
+.book-form input[type="email"],
+.book-form input[type="password"],
+.book-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.book-form textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.book-form input:focus,
+.book-form textarea:focus {
+    outline: none;
+    border-color: #1f2937;
+    box-shadow: 0 0 0 2px rgba(31, 41, 55, 0.15);
+}
+
+.book-field {
+    margin-bottom: 14px;
+}
+
+.book-label {
+    display: block;
+    font-weight: 500;
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.book-error {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/*    Messages (success / error / info / warning)    */
+.message {
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border: 1px solid transparent;
+}
+
+.message-success {
+    background: #d1fae5;
+    color: #065f46;
+    border-color: #a7f3d0;
+}
+
+.message-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.message-info {
+    background: #dbeafe;
+    color: #1e40af;
+    border-color: #bfdbfe;
+}
+
+.message-warning {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
 }

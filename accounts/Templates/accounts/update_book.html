@@ -13,10 +13,17 @@
 
             <h3>{{ book.title }}</h3>
 
-            <form method="post">
+            <form method="post" class="book-form">
                 {% csrf_token %}
-
-                {{ form.as_p }}
+                {% for field in form %}
+                    <div class="book-field">
+                        <label for="{{ field.id_for_label }}" class="book-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <div class="book-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
 
                 <button type="submit" class="btn btn-warning">
                     Save Changes

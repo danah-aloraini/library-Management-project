@@ -9,40 +9,37 @@
 </head>
 <body>
 
+    <nav class="library-menu">
+        <div class="menu-container">
 
-    <nav class="library-Menu">
-        <div class="Menu-container">
-
-
-            <a class="Menu-logo" href="{% url 'accounts:login_view' %}">
+            <a class="menu-logo" href="{% url 'accounts:login_view' %}">
                 <img src="{% static 'accounts/library-logo.jfif' %}" alt="Website Logo">
             </a>
 
-
-            <div class="Menu-links">
-
+            <div class="menu-links">
                 {% if request.user.is_authenticated %}
-                    <a class="Menu-link" href="{% url 'accounts:book_list_view' %}">All Books</a>
-                    <a class="Menu-link" href="{% url 'accounts:add_book_view' %}">Add Book</a>
+                    <a class="menu-link" href="{% url 'accounts:book_list_view' %}">All Books</a>
+                    <a class="menu-link" href="{% url 'accounts:add_book_view' %}">Add Book</a>
+                    <a class="menu-link" href="{% url 'accounts:logout_view' %}">Logout</a>
                 {% else %}
-                    <a class="Menu-link" href="{% url 'accounts:login_view' %}">Login</a>
-                    <a class="Menu-link" href="{% url 'accounts:register_view' %}">Register</a>
-                 {% endif %}
-
+                    <a class="menu-link" href="{% url 'accounts:login_view' %}">Login</a>
+                    <a class="menu-link" href="{% url 'accounts:register_view' %}">Register</a>
+                {% endif %}
             </div>
 
         </div>
     </nav>
 
-    <div class="container ">
+    <div class="container">
         {% if messages %}
-    {% for message in messages %}
-        {{ message }}
-    {% endfor %}
-{% endif %}
+            {% for message in messages %}
+                <div class="message {% if message.tags %}message-{{ message.tags }}{% else %}message-info{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
 
-{% block body %}{% endblock %}
-        
+        {% block body %}{% endblock %}
     </div>
 
 </body>
