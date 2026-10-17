@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.forms import ModelForm
 from .models import Book
 from django.contrib import messages
 
@@ -144,3 +147,41 @@ def reserve_book_view(request, book_id):
     return HttpResponseRedirect(
         reverse("accounts:book_detail_view", args=(book_id,))
     )
+    
+class BookForm(ModelForm):
+    class Meta:
+         model = Book
+         fields = ['title', 'author', 'genre', 'description']
+
+
+@login_required(login_url='accounts:login_view')
+def update_book_view(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Book updated successfully!")
+            return redirect("accounts:book_detail_view", book_id=book.id)
+    else:
+        form = BookForm(instance=book)
+
+    return render(request, "accounts/update_book.html", {
+        "form": form,
+        "book": book
+    })
+    
+@login_required(login_url='accounts:login_view')
+def delete_book_view(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == "POST":
+        book.delete()
+        messages.success(request, "Book deleted successfully!")
+        return redirect("accounts:book_list_view")
+
+    return render(request, "accounts/delete_book.html", {
+        "book": book
+    })

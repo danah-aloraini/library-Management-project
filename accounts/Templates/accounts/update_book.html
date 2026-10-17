@@ -1,0 +1,36 @@
+{% extends "accounts/layout.html" %}
+
+{% block title %}Update Book{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+
+    <h2>Update Book</h2>
+
+    <div class="card mt-4">
+        <div class="card-body">
+
+            <h3>{{ book.title }}</h3>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-warning">
+                    Save Changes
+                </button>
+
+                <a href="{% url 'accounts:book_detail_view' book.id %}"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
